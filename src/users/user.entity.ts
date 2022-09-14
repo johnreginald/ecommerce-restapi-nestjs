@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
-@Entity()
+@Entity('users')
+@Unique(['email', 'username'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -13,4 +14,10 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column()
+  created_at: Date;
+
+  @Column()
+  updated_at: Date;
 }

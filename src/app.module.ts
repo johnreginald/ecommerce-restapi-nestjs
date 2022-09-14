@@ -4,27 +4,31 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
-import { User } from './users/user.entity';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
-    TypeOrmModule.forRoot({
-      type: 'mariadb',
-      host: '127.0.0.1',
-      port: 3306,
-      username: 'root',
-      password: 'secret',
-      database: 'api_project',
-      entities: [User],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'mariadb',
+        host: configService.get('DB_HOST', 'localhost'),
+        port: configService.get('DB_PORT', 3306),
+        username: configService.get('DB_USERNAME', 'root'),
+        password: configService.get('DB_PASSWORD', 'secret'),
+        database: configService.get('DB_NAME', 'test'),
+        autoLoadEntities: true,
+      }),
+      inject: [ConfigService],
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
     }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}

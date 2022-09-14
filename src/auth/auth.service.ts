@@ -28,4 +28,8 @@ export class AuthService {
       token: this.jwtService.sign(payload),
     };
   }
+
+  async register(user: any) {
+    return this.usersService.create(user);
+  }
 }
