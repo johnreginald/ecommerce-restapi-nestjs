@@ -16,8 +16,10 @@ export class ProductsService {
     return this.productsRepository.save(createProductDto);
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async findAll() {
+    return {
+      data: await this.productsRepository.find(),
+    };
   }
 
   findOne(id: number) {
