@@ -1,15 +1,18 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('api/v1')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   @HttpCode(200)
-  async login() {
-    return 'login';
+  async login(@Body() user: LoginDto) {
+    return this.authService.login(user);
   }
 
   @Post('register')

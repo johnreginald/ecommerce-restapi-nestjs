@@ -18,12 +18,14 @@ export class userTable1662715129851 implements MigrationInterface {
             type: 'varchar',
             length: '255',
             isNullable: false,
+            isUnique: true,
           },
           {
             name: 'email',
             type: 'varchar',
             length: '255',
             isNullable: false,
+            isUnique: true,
           },
           {
             name: 'password',
