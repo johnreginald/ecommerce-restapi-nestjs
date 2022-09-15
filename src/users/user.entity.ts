@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
+import { Cart } from '../cart/entities/cart.entity';
 
 @Entity('users')
 @Unique(['email', 'username'])
@@ -14,6 +21,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Cart, (cart) => cart.user)
+  carts: Cart[];
 
   @Column()
   created_at: Date;

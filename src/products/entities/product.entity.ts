@@ -16,7 +16,6 @@ export class Product {
   @Column({
     type: 'int',
   })
-  @Column()
   price: number;
 
   @Column()
